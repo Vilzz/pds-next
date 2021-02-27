@@ -8,8 +8,24 @@
     "start": "next start"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.34",
+    "@fortawesome/free-solid-svg-icons": "^5.15.2",
+    "@fortawesome/react-fontawesome": "^0.1.14",
+    "axios": "^0.21.1",
+    "framer-motion": "^3.6.6",
     "next": "10.0.7",
+    "next-redux-wrapper": "^6.0.2",
     "react": "17.0.1",
-    "react-dom": "17.0.1"
+    "react-bootstrap": "^1.5.0",
+    "react-dom": "17.0.1",
+    "react-redux": "^7.2.2",
+    "redux": "^4.0.5",
+    "redux-devtools-extension": "^2.13.8",
+    "redux-thunk": "^2.3.0",
+    "uuid": "^8.3.2"
+  },
+  "proxy": "http://localhost:5008",
+  "devDependencies": {
+    "sass": "^1.32.8"
   }
 }
