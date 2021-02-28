@@ -9,7 +9,10 @@ const Pagesnav = () => {
           <ul className='navbar-nav mega-navpr-lg-2mr-lg-2'>
             <li className='nav-item dropdown'>
               <Link href='/catalog'>
-                <a className='nav-link dropdown-toggle pl-0'>
+                <a
+                  className='nav-link dropdown-toggle pl-0 text_bold'
+                  style={{ fontSize: '1rem' }}
+                >
                   <i className='czi-view-grid mr-2'></i>Каталог
                 </a>
               </Link>
@@ -20,8 +23,8 @@ const Pagesnav = () => {
               <li className='nav-item' key={idx}>
                 <Link href={item.urlTo}>
                   <a
-                    className='nav-link text-left'
-                    style={{ fontSize: '13px', fontWeight: 'bold' }}
+                    className='nav-link text-left text_bold'
+                    style={{ fontSize: '12px' }}
                   >
                     {item.name}
                   </a>

@@ -16,9 +16,9 @@ const Catalog = ({ categories }) => {
         />
       </Head>
       <Container className='py-5' fluid style={{ backgroundColor: '#f1f1f1' }}>
-        <h3 className='display-5 text-center text-uppercase'>
+        <h1 className='display-5 text-center text_bold'>
           Каталог сувениров и подарков
-        </h3>
+        </h1>
         <hr className='mt-5' />
         <div className='row ml-5 mr-lg-5 justify-content-md-center align-items-center pds_catalog tmp'>
           {categories !== null &&
@@ -36,10 +36,10 @@ const Catalog = ({ categories }) => {
     </>
   )
 }
-Catalog.getInitialProps = async (ctx) => {
+export const getStaticProps = async (ctx) => {
   const res = await axios.get(
     `${process.env.NEXT_PUBLIC_DEV_SERVER}/categories`
   )
-  return { categories: res.data }
+  return { props: { categories: res.data } }
 }
 export default Catalog
