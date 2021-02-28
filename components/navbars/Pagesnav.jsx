@@ -8,9 +8,11 @@ const Pagesnav = () => {
           <hr className='d-lg-none mt-3mb-2' />
           <ul className='navbar-nav mega-navpr-lg-2mr-lg-2'>
             <li className='nav-item dropdown'>
-              <a href='/catalog' className='nav-link dropdown-toggle pl-0'>
-                <i className='czi-view-grid mr-2'></i>Категории
-              </a>
+              <Link href='/catalog'>
+                <a className='nav-link dropdown-toggle pl-0'>
+                  <i className='czi-view-grid mr-2'></i>Каталог
+                </a>
+              </Link>
             </li>
           </ul>
           <ul className='navbar-nav'>

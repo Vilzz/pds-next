@@ -6,12 +6,9 @@ import { setAlert } from '../../redux/actions/alerts'
 import { login, register } from '../../redux/actions/auth'
 
 // Остановился на LOGOUT
-const Account = ({ setAccountModal }) => {
+const Account = ({ setAccountModal, loading, user, isAuthenticated }) => {
   const dispatch = useDispatch()
   const router = useRouter()
-  //router.push('/post/abc'
-  const { loading, user, isAuthenticated } = useSelector((state) => state.auth)
-
   const [withActive, setWithActive] = useState({
     a: true,
     b: false,
@@ -58,7 +55,7 @@ const Account = ({ setAccountModal }) => {
     e.preventDefault()
     const { name, email2, password1, password2 } = registerData
     if (password1 !== password2) {
-      setAlert('Пароли не совпадают', 'warning', 2000)
+      dispatch(setAlert('Пароли не совпадают', 'warning', 2000))
     } else {
       const res = dispatch(
         register({ name, email: email2, password: password1 })

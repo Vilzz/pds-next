@@ -6,14 +6,16 @@ import { Container } from 'react-bootstrap'
 import Link from 'next/link'
 import Image from 'next/image'
 import Account from '../auth/Account.jsx'
+import Logout from '../auth/Logout.jsx'
 
 const Middlebar = () => {
   const auth = useSelector((state) => state.auth)
-
+  const { isAuthenticated, loading, user } = auth
+  const [userName, setUserName] = useState(
+    !loading && user !== null ? user.data.name : ''
+  )
   const [accountModal, setAccountModal] = useState(false)
   const [logoutModal, setLogOutModal] = useState(false)
-
-  const { isAuthenticated, loading, user } = auth
 
   const acountMenuItem = (setAccountModal, setLogOutModal, isAuthenticated) =>
     isAuthenticated ? (
@@ -125,7 +127,12 @@ const Middlebar = () => {
             animate='endpoint'
             exit='exit'
           >
-            <Account setAccountModal={setAccountModal} />
+            <Account
+              setAccountModal={setAccountModal}
+              isAuthenticated={isAuthenticated}
+              loading={loading}
+              user={user}
+            />
           </motion.div>
         )}
       </AnimatePresence>

@@ -2,8 +2,9 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { motion } from 'framer-motion'
 
-const Alerts = ({ alerts }) => {
-  alerts !== null && alerts.length > 0 && (
+const Alerts = ({ alerts }) =>
+  alerts !== null &&
+  alerts.length > 0 && (
     <div className='pds_alert-bg'>
       <motion.div
         variants={alertVariants}
@@ -29,8 +30,6 @@ const Alerts = ({ alerts }) => {
       </motion.div>
     </div>
   )
-  return <div></div>
-}
 
 const mapStateToProps = (state) => ({
   alerts: state.alerts,
