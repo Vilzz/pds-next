@@ -1,6 +1,6 @@
 import Link from 'next/link'
-
-const Catalogheader = ({ slug, name, subname, subslug }) => {
+import Image from 'next/image'
+const Catalogheader = ({ slug, name, photo, subname, subslug }) => {
   return (
     <div className='bg-bgcol py-4'>
       <div className='container d-lg-flex justify-content-between py-2 py-lg-3'>
@@ -58,7 +58,10 @@ const Catalogheader = ({ slug, name, subname, subslug }) => {
         </div>
         <div className='order-lg-1 pr-lg-4 text-center text-lg-left'>
           <h1 className='display-6 mb-0 text_bold'>
-            {!subslug ? name : subname}
+            {photo && <Image width={40} height={40} src={photo} alt={name} />}
+            <span className={photo ? 'ml-3' : 'ml-0'}>
+              {!subslug ? name : subname}
+            </span>
           </h1>
         </div>
       </div>

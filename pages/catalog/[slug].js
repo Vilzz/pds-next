@@ -19,7 +19,11 @@ const Subcatalog = ({ category }) => {
         />
         <meta name='viewport' content='initial-scale=1.0, width=device-width' />
       </Head>
-      <Catalogheader slug={slug} name={category.data[0].name} />
+      <Catalogheader
+        slug={slug}
+        name={category.data[0].name}
+        photo={category.data[0].photo}
+      />
       <Container className='pds_container py-3'>
         <Row className='w-75'>
           <Col sm={12} md={5} className='mt-3'>
