@@ -35,7 +35,7 @@ const Catalog = ({ categories }) => {
     </>
   )
 }
-export const getStaticProps = async (ctx) => {
+export const getServerSideProps = async (ctx) => {
   const res = await axios.get(
     `${process.env.NEXT_PUBLIC_DEV_SERVER}/categories`
   )
