@@ -1,7 +1,8 @@
 import axios from 'axios'
 import Head from 'next/head'
-import { Container } from 'react-bootstrap'
+import { Container, Row } from 'react-bootstrap'
 import Catalogcard from '../components/catalog/Catalogcard.jsx'
+import Catalogheader from '../components/bredcrambs/Catalogheader.jsx'
 
 const Catalog = ({ categories }) => {
   return (
@@ -15,11 +16,9 @@ const Catalog = ({ categories }) => {
           content="Подарки, сувениры для бизнеса. Компания 'Про-движение' деловые подарки. Нанесение логотипа, брендирование"
         />
       </Head>
-      <Container className='py-5' fluid style={{ backgroundColor: '#f1f1f1' }}>
-        <h1 className='display-5 text-center text_bold'>
-          Каталог сувениров и подарков
-        </h1>
-        <hr className='mt-5' />
+      <Catalogheader name='Каталог сувениров и подарков' />
+      <Container className='pds_container' fluid>
+        <Row className='justify-content-center'></Row>
         <div className='row ml-5 mr-lg-5 justify-content-md-center align-items-center pds_catalog tmp'>
           {categories !== null &&
             categories.data.map(({ name, photo, _id, subcategories, slug }) => (

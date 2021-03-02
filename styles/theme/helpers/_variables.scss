@@ -30,11 +30,13 @@ $danger: #f34770 !default;
 $light: $white !default;
 $dark: $gray-800 !default;
 
+
 // Adding new color to default Bootstrap's $theme-colors map
 $theme-colors: () !default;
 $theme-colors: map-merge(
   (
     "accent": $accent,
+    "bgcol": $gray-300,
   ),
   $theme-colors
 );

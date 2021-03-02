@@ -1,11 +1,22 @@
 .tmp {
   min-height: 80vh;
 }
+.devbd{
+  border: 1px solid #000;
+}
+hr{
+  border-top: 1px solid $primary;
+  margin-left: auto;
+  margin-right: auto;
+}
 .text_bold{
   font-weight: 600;
 }
 .text_extra_bold{
   font-weight: 900;
+}
+.pds_container{
+  background-color: '#f1f1f1'
 }
 .pds_works {
   display: flex;
