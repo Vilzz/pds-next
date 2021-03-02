@@ -1,7 +1,10 @@
 import axios from 'axios'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
-const Item = ({ subcategories }) => {
+import Catalogheader from '../../../components/bredcrambs/Catalogheader.jsx'
+import Subcatalogmenu from '../../../components/catalog/subcatalog/Subcatalogmenu.jsx'
+import { Container, Row, Col } from 'react-bootstrap'
+const Item = ({ subcategories, parent }) => {
   const router = useRouter()
   const { slug, subslug } = router.query
   return (
@@ -15,18 +18,38 @@ const Item = ({ subcategories }) => {
         />
         <meta name='viewport' content='initial-scale=1.0, width=device-width' />
       </Head>
-      <h1 className='display-3'>{subcategories.data.name}</h1>
-      <h3>{slug}</h3>
+      <Catalogheader
+        slug={slug}
+        name={parent.data[0].name}
+        subslug={subslug}
+        subname={subcategories.data.name}
+      />
+      <Container className='pds_container py-3'>
+        <Row className='w-75'>
+          <Col sm={12} md={5} className='mt-3'>
+            <Subcatalogmenu
+              subcategories={parent.data[0].subcategories}
+              slug={slug}
+            />
+          </Col>
+          <Col></Col>
+        </Row>
+      </Container>
     </div>
   )
 }
 export const getServerSideProps = async (context) => {
+  const { slug } = context.params
+  const parent = await axios.get(
+    `${process.env.NEXT_PUBLIC_DEV_SERVER}/categories?slug=${slug}&select=name`
+  )
   const res = await axios.post(
     `${process.env.NEXT_PUBLIC_DEV_SERVER}/subcategories/${context.params.subslug}`
   )
   return {
     props: {
       subcategories: res.data,
+      parent: parent.data,
     },
   }
 }
