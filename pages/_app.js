@@ -6,6 +6,7 @@ import setAuthToken from '../utils/setAuthToken'
 import { loadUser } from '../redux/actions/auth'
 import Layout from '../components/Layout.jsx'
 import Mainnav from '../components/navbars/Mainnav.jsx'
+import Footer from '../components/footer/Footer.jsx'
 import Alerts from '../components/alerts/Alerts.jsx'
 import '../styles/globals.scss'
 
@@ -24,6 +25,7 @@ function MyApp({ Component, pageProps }) {
       <Layout>
         <Component {...pageProps} />
       </Layout>
+      <Footer />
     </Provider>
   )
 }
