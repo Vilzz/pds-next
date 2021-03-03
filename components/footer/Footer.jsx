@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { Col, Container, Row } from 'react-bootstrap'
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { getFooterCategories } from '../../redux/actions/categories'
 import { aboutUs, profileMenu } from './helpers'
@@ -14,7 +14,7 @@ const Footer = () => {
   useEffect(() => {
     dispatch(getFooterCategories())
   }, [])
-  const footercats = useSelector((state) => state.categories)
+  const footercats = useSelector((state) => state.categories.footercats)
   return (
     <footer className='bg-dark pt-5'>
       <Container>
@@ -24,7 +24,7 @@ const Footer = () => {
               <Footermenu
                 menudata={{
                   header: 'Каталог подарков и сувениров',
-                  menus: [...footercats.footercats.data],
+                  menus: [...footercats.data],
                 }}
               />
             )}

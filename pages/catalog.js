@@ -17,7 +17,7 @@ const Catalog = ({ categories }) => {
         />
       </Head>
       <Catalogheader name='Каталог сувениров и подарков' />
-      <Container className='pds_container' fluid>
+      <Container className='pds_container mb-5' fluid>
         <Row className='justify-content-center'></Row>
         <div className='row ml-5 mr-lg-5 justify-content-md-center align-items-center pds_catalog tmp'>
           {categories !== null &&
