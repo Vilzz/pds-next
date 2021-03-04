@@ -6,7 +6,10 @@ const Subcatalogmenu = ({ subcategories, slug }) => {
         {subcategories.map((sctg) => (
           <li className='widget-list-item' key={sctg._id}>
             <Link href={`/catalog/${slug}/${sctg.slug}`}>
-              <a className='widget-list-link font-size-lg'>{sctg.name}</a>
+              <a className='widget-list-link font-size-sm'>
+                <i className='czi-arrow-right-circle mr-2'></i>
+                {sctg.name}
+              </a>
             </Link>
           </li>
         ))}

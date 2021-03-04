@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { GET_FOOTER_CATEGORIES, CATEGORIES_ERROR } from '../types'
+
 export const getFooterCategories = () => async (dispatch) => {
   try {
     const res = await axios.get(

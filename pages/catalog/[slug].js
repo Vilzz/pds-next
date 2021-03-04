@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react'
 import axios from 'axios'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
@@ -6,6 +7,10 @@ import Subcatalogmenu from '../../components/catalog/subcatalog/Subcatalogmenu.j
 import Catalogheader from '../../components/bredcrambs/Catalogheader.jsx'
 
 const Subcatalog = ({ category }) => {
+  const [firstfour, setFirstfour] = useState([])
+  useEffect(() => {
+    setFirstfour(category.data[0].subcategories.map((sctg) => sctg._id))
+  }, [category])
   const router = useRouter()
   const { slug } = router.query
   return (
@@ -24,15 +29,15 @@ const Subcatalog = ({ category }) => {
         name={category.data[0].name}
         photo={category.data[0].photo}
       />
-      <Container className='pds_container py-3'>
-        <Row className='w-75'>
-          <Col sm={12} md={5} className='mt-3'>
+      <Container className='devbd pds_container py-3 tmp'>
+        <Row className='devbd w-100'>
+          <Col sm={12} md={3} className='devbd mt-3'>
             <Subcatalogmenu
               subcategories={category.data[0].subcategories}
               slug={slug}
             />
           </Col>
-          <Col></Col>
+          <Col sm={12} md={9}></Col>
         </Row>
       </Container>
     </>
