@@ -37,7 +37,7 @@ const Catalog = ({ categories }) => {
 }
 export const getServerSideProps = async (ctx) => {
   const res = await axios.get(
-    `${process.env.NEXT_PUBLIC_DEV_SERVER}/categories`
+    `${process.env.NEXT_PUBLIC_DEV_SERVER}/categories?limit=16`
   )
   return { props: { categories: res.data } }
 }

@@ -1,4 +1,9 @@
-import { GET_FOOTER_CATEGORIES, CATEGORIES_ERROR } from '../types'
+import {
+  GET_FOOTER_CATEGORIES,
+  GET_CATEGORY,
+  CATEGORY_ERROR,
+  CATEGORIES_ERROR,
+} from '../types'
 
 const initialState = {
   loading: true,
@@ -17,7 +22,14 @@ const categories = (state = initialState, action) => {
         loading: false,
         footercats: payload,
       }
+    case GET_CATEGORY:
+      return {
+        ...state,
+        loading: false,
+        category: payload,
+      }
     case CATEGORIES_ERROR:
+    case CATEGORY_ERROR:
       return {
         ...state,
         loading: false,

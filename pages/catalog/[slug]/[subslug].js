@@ -1,38 +1,47 @@
 import axios from 'axios'
 import { useRouter } from 'next/router'
+import { useState, useEffect } from 'react'
 import Head from 'next/head'
 import Catalogheader from '../../../components/bredcrambs/Catalogheader.jsx'
 import Subcatalogmenu from '../../../components/catalog/subcatalog/Subcatalogmenu.jsx'
 import { Container, Row, Col } from 'react-bootstrap'
-const Item = ({ subcategories, parent }) => {
+const Item = ({ parent }) => {
+  const [curentSubctg, setCurentCtg] = useState([])
   const router = useRouter()
   const { slug, subslug } = router.query
+  useEffect(() => {
+    parent !== null &&
+      setCurentCtg(
+        parent.data.subcategories.filter((item) => item.slug === subslug)[0]
+      )
+  }, [subslug])
   return (
     <div>
       <Head>
-        <title>Про-движение | {subcategories.data.name}</title>
+        <title>Про-движение | {curentSubctg.name}</title>
         <meta
           name='description'
-          content={subcategories.data.description}
+          content={curentSubctg.description}
           lang='ru-RU'
         />
         <meta name='viewport' content='initial-scale=1.0, width=device-width' />
       </Head>
       <Catalogheader
         slug={slug}
-        name={parent.data[0].name}
+        name={parent.data.name}
         subslug={subslug}
-        subname={subcategories.data.name}
+        subname={curentSubctg.name}
       />
-      <Container className='pds_container py-3'>
-        <Row className='w-75'>
-          <Col sm={12} md={5} className='mt-3'>
+      <Container className='pds_container'>
+        <Row className='my-3'>
+          <Col sm={12} md={3}>
             <Subcatalogmenu
-              subcategories={parent.data[0].subcategories}
               slug={slug}
+              id={parent.data._id}
+              subslug={subslug}
             />
           </Col>
-          <Col></Col>
+          <Col className='devbd'></Col>
         </Row>
       </Container>
     </div>
@@ -40,15 +49,11 @@ const Item = ({ subcategories, parent }) => {
 }
 export const getServerSideProps = async (context) => {
   const { slug } = context.params
-  const parent = await axios.get(
-    `${process.env.NEXT_PUBLIC_DEV_SERVER}/categories?slug=${slug}&select=name`
-  )
-  const res = await axios.post(
-    `${process.env.NEXT_PUBLIC_DEV_SERVER}/subcategories/${context.params.subslug}`
+  const parent = await axios.post(
+    `${process.env.NEXT_PUBLIC_DEV_SERVER}/categories/${slug}`
   )
   return {
     props: {
-      subcategories: res.data,
       parent: parent.data,
     },
   }

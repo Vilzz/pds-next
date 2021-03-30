@@ -3,13 +3,18 @@ import axios from 'axios'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
 import { Container, Row, Col } from 'react-bootstrap'
-import Subcatalogmenu from '../../components/catalog/subcatalog/Subcatalogmenu.jsx'
+import SubcatalogPreview from '../../components/catalog/subcatalog/SubcatalogPreview.jsx'
 import Catalogheader from '../../components/bredcrambs/Catalogheader.jsx'
+import Sorting from '../../components/catalog/subcatalog/Sorting.jsx'
 
 const Subcatalog = ({ category }) => {
-  const [firstfour, setFirstfour] = useState([])
+  const [subctgPreviews, setSubctgPreviews] = useState([])
   useEffect(() => {
-    setFirstfour(category.data[0].subcategories.map((sctg) => sctg._id))
+    setSubctgPreviews(
+      category.data[0].subcategories.map((sctg) => {
+        return { name: sctg.name, groups: sctg.groups, subslug: sctg.slug }
+      })
+    )
   }, [category])
   const router = useRouter()
   const { slug } = router.query
@@ -29,15 +34,16 @@ const Subcatalog = ({ category }) => {
         name={category.data[0].name}
         photo={category.data[0].photo}
       />
-      <Container className='devbd pds_container py-3 tmp'>
-        <Row className='devbd w-100'>
-          <Col sm={12} md={3} className='devbd mt-3'>
-            <Subcatalogmenu
-              subcategories={category.data[0].subcategories}
-              slug={slug}
-            />
+      <Container className='pds_container py-3 tmp'>
+        <Row className='justify-content-end'>
+          <Sorting />
+        </Row>
+        <Row className='w-100'>
+          <Col sm={12} md={12} className='mt-3 pb-5'>
+            {subctgPreviews.map((preview, idx) => (
+              <SubcatalogPreview preview={preview} key={preview.name} />
+            ))}
           </Col>
-          <Col sm={12} md={9}></Col>
         </Row>
       </Container>
     </>

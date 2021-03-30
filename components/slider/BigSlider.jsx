@@ -18,7 +18,7 @@ const BigSlider = () => {
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(getMainSliders())
-  }, [dispatch])
+  }, [getMainSliders])
   const bigsliders = useSelector((state) => state.bigsliders)
   useEffect(() => {
     !bigsliders.loading &&
