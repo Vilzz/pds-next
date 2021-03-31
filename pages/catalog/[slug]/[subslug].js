@@ -4,8 +4,9 @@ import { useState, useEffect } from 'react'
 import Head from 'next/head'
 import Catalogheader from '../../../components/bredcrambs/Catalogheader.jsx'
 import Subcatalogmenu from '../../../components/catalog/subcatalog/Subcatalogmenu.jsx'
+import CardsHolder from '../../../components/products/CardsHolder.jsx'
 import { Container, Row, Col } from 'react-bootstrap'
-const Item = ({ parent }) => {
+const Item = ({ parent, groups }) => {
   const [curentSubctg, setCurentCtg] = useState([])
   const router = useRouter()
   const { slug, subslug } = router.query
@@ -41,20 +42,31 @@ const Item = ({ parent }) => {
               subslug={subslug}
             />
           </Col>
-          <Col className='devbd'></Col>
+          <Col>
+            <CardsHolder
+              groups={groups.data[0]}
+              slug={slug}
+              subslug={subslug}
+              subname={curentSubctg.name}
+            />
+          </Col>
         </Row>
       </Container>
     </div>
   )
 }
 export const getServerSideProps = async (context) => {
-  const { slug } = context.params
+  const { slug, subslug } = context.params
   const parent = await axios.post(
     `${process.env.NEXT_PUBLIC_DEV_SERVER}/categories/${slug}`
+  )
+  const groups = await axios.get(
+    `${process.env.NEXT_PUBLIC_DEV_SERVER}/subcategories?slug=${subslug}&select=groups`
   )
   return {
     props: {
       parent: parent.data,
+      groups: groups.data,
     },
   }
 }

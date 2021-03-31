@@ -7,18 +7,18 @@ const PreviewCard = ({ product, subslug, subcatalogname }) => {
   const { slug } = router.query
 
   return (
-    <div class='card product-card card-static pb-3'>
+    <div className='card product-card card-static pb-3 devbd'>
       <button
-        class='btn-wishlist btn-sm'
+        className='btn-wishlist btn-sm'
         type='button'
         data-toggle='tooltip'
         data-placement='left'
         title='Нравиться'
       >
-        <i class='czi-heart'></i>
+        <i className='czi-heart'></i>
       </button>
       <Link href={`/catalog/${slug}/${subslug}`}>
-        <a class='card-img-top d-block overflow-hidden'>
+        <a className='card-img-top d-block overflow-hidden'>
           <Image
             width={200}
             height={200}
@@ -29,23 +29,27 @@ const PreviewCard = ({ product, subslug, subcatalogname }) => {
           />
         </a>
       </Link>
-      <div class='card-body py-2'>
+      <div className='card-body py-2'>
         <Link href={`/catalog/${slug}/${subslug}`}>
-          <a class='product-meta d-block font-size-xs pb-1'>{subcatalogname}</a>
+          <a className='product-meta d-block font-size-xs pb-1'>
+            {subcatalogname}
+          </a>
         </Link>
 
-        <h3 class='product-title font-size-sm'>
-          <a href='grocery-single.html'>{product.name}</a>
+        <h3 className='product-title font-size-sm'>
+          <Link href={`/catalog/${slug}/${subslug}/${product._id}`}>
+            <a>{product.name}</a>
+          </Link>
         </h3>
-        <div class='product-price'>
-          <span class='text-accent'>
+        <div className='product-price'>
+          <span className='text-accent'>
             {product.price}
             <small> руб.</small>
           </span>
         </div>
         <div className='card-footer'>
           <button
-            class='btn btn-primary btn-shadow btn-sm'
+            className='btn btn-primary btn-shadow btn-sm'
             type='button'
             data-toggle='toast'
             data-target='#cart-toast'
