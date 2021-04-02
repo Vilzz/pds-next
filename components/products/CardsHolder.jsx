@@ -3,7 +3,7 @@ import Link from 'next/link'
 const CardsHolder = ({ groups: { groups }, slug, subslug, subname }) => {
   return (
     <div
-      className='row no-gutters mx-n3'
+      className='row no-gutters mx-n3 subcatalog'
       style={{ height: '80vh', overflow: 'scroll' }}
     >
       {groups.map((group) => (
@@ -14,7 +14,7 @@ const CardsHolder = ({ groups: { groups }, slug, subslug, subname }) => {
               type='button'
               data-toggle='tooltip'
               data-placement='left'
-              title='Add to wishlist'
+              title='Добавить в хотелки'
             >
               <i className='czi-heart'></i>
             </button>
@@ -42,22 +42,47 @@ const CardsHolder = ({ groups: { groups }, slug, subslug, subname }) => {
                   </Link>
                 </h3>
               </div>
-
-              <div className='product-price'>
-                <span className='text-accent'>
-                  {group.price}
-                  <small> руб. </small>
-                </span>
+              <div style={{ minHeight: '120px' }}>
+                {group.brand && (
+                  <div className='card-info px-2'>
+                    <span className='font-size-sm'>Бренд:</span>
+                    <span className='text-accent'>{group.brand}</span>
+                  </div>
+                )}
+                <div className='card-info px-2'>
+                  <span className='font-size-sm'>Артикул:</span>
+                  <span className='text-accent'>{group.article}</span>
+                </div>
+                <div className='product-price d-flex justify-content-between px-2'>
+                  <span className='font-size-sm'>Цена:</span>
+                  <span className='text-accent'>
+                    {group.price}
+                    <small> руб. </small>
+                  </span>
+                </div>
+                <div className='card-info px-2 pb-3'>
+                  <span className='font-size-sm'>Остаток: </span>
+                  <span
+                    className={
+                      group.stock !== null && group.stock.free === 0
+                        ? 'text-danger'
+                        : 'text-accent'
+                    }
+                  >
+                    {group.stock !== null && group.stock.free} шт.
+                  </span>
+                </div>
               </div>
-              <div className='card-footer'>
-                <button
-                  className='btn btn-primary btn-shadow btn-sm'
-                  type='button'
-                  data-toggle='toast'
-                  data-target='#cart-toast'
-                >
-                  подробнее...
-                </button>
+
+              <div className='card-footer d-flex justify-content-center'>
+                <Link href={`/catalog/${slug}/${subslug}/${group._id}`}>
+                  <a
+                    className='btn btn-primary btn-shadow btn-sm'
+                    type='button'
+                  >
+                    подробнее...{' '}
+                  </a>
+                </Link>
               </div>
             </div>
           </div>

@@ -60,7 +60,7 @@ const Middlebar = () => {
               <Image
                 width={200}
                 height={52}
-                src='/images/logo.jpg'
+                src='/images/small/logo.jpg'
                 alt='Про-движение'
               />
             </a>

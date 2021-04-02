@@ -57,12 +57,12 @@ const Catalogheader = ({ slug, name, photo, subname, subslug }) => {
           </nav>
         </div>
         <div className='order-lg-1 pr-lg-4 text-center text-lg-left'>
-          <h1 className='display-6 mb-0 text_bold'>
+          <h2 className='mb-0 text_bold'>
             {photo && <Image width={40} height={40} src={photo} alt={name} />}
             <span className={photo ? 'ml-3' : 'ml-0'}>
               {!subslug ? name : subname}
             </span>
-          </h1>
+          </h2>
         </div>
       </div>
     </div>
