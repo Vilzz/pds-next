@@ -7,7 +7,10 @@ const CardsHolder = ({ groups: { groups }, slug, subslug, subname }) => {
       style={{ height: '80vh', overflow: 'scroll' }}
     >
       {groups.map((group) => (
-        <div className='col-xl-3 col-lg-6 col-md-4 col-sm-6 mb-3'>
+        <div
+          className='col-xl-3 col-lg-6 col-md-4 col-sm-6 mb-3'
+          key={group._id}
+        >
           <div className='card product-card card-static pb-3'>
             <button
               className='btn-wishlist btn-sm'
@@ -80,7 +83,7 @@ const CardsHolder = ({ groups: { groups }, slug, subslug, subname }) => {
                     className='btn btn-primary btn-shadow btn-sm'
                     type='button'
                   >
-                    подробнее...{' '}
+                    подробнее...
                   </a>
                 </Link>
               </div>

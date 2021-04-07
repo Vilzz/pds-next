@@ -4,6 +4,20 @@
 .devbd {
   border: 1px solid #000;
 }
+.thumb-img{
+  border-radius: 10px;
+  box-shadow: 0px 0px 14px 1px rgba(34, 60, 80, 0.2);
+  &:hover{
+   box-shadow: none; 
+  }
+}
+.thumbs-holder{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  cursor: pointer;
+}
 .subcatalog {
   &::-webkit-scrollbar {
     width: 16px;
@@ -282,6 +296,7 @@ hr {
   border: none;
 }
 @media (min-width: 992px) {
+  
   .pds_slider-texts {
     min-width: 42rem;
     max-width: none;
@@ -306,6 +321,10 @@ hr {
 }
 
 @media (max-width: 576px) {
+  .thumbs-holder{
+    flex-direction: row;
+    margin-top: 20px;
+  }
   .pds_header-cont {
     flex-direction: column;
   }
