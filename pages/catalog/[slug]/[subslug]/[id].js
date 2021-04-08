@@ -133,6 +133,18 @@ const Product = ({ group, subcategory }) => {
               )}
 
               <div className='form-group d-flex flex-wrap align-items-center pt-4 pb-2'>
+                {group.data.products.length > 0 && (
+                  <select
+                    className='custom-select mr-3 mb-3'
+                    style={{ width: '5rem' }}
+                  >
+                    {group.data.products.map((product) => (
+                      <option value={product.size_code}>
+                        {product.size_code}
+                      </option>
+                    ))}
+                  </select>
+                )}
                 <select
                   className='custom-select mr-3 mb-3'
                   style={{ width: '5rem' }}

@@ -2,7 +2,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 const Catalogheader = ({ slug, name, photo, subname, subslug }) => {
   return (
-    <div className='bg-bgcol py-4'>
+    <div className='bg-bgcol py-2'>
       <div className='container d-lg-flex justify-content-between py-2 py-lg-3'>
         <div className='order-lg-2 mb-3 mb-lg-0 pt-lg-2'>
           <nav>
