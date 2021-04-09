@@ -1,20 +1,14 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { useState, useEffect } from 'react'
 import Spinner from '../helpers/Spinner.jsx'
-
 const CardsHolder = ({ groups, slug, subslug, subname }) => {
-  const [products, setProducts] = useState(null)
-  useEffect(() => {
-    setProducts(groups)
-  }, [groups])
   return (
     <div
       className='row no-gutters mx-n3 subcatalog'
       style={{ height: '80vh', overflow: 'scroll' }}
     >
-      {products !== null ? (
-        products.groups.map((group) => (
+      {groups ? (
+        groups.map((group) => (
           <div
             className='col-xl-3 col-lg-6 col-md-4 col-sm-6 mb-3'
             key={group._id}

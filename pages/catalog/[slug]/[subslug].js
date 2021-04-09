@@ -1,22 +1,50 @@
 import axios from 'axios'
 import { useRouter } from 'next/router'
 import { useState, useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { getGroups, clearGroups } from '../../../redux/actions/groups.js'
 import Head from 'next/head'
 import Catalogheader from '../../../components/bredcrambs/Catalogheader.jsx'
 import Subcatalogmenu from '../../../components/catalog/subcatalog/Subcatalogmenu.jsx'
 import CardsHolder from '../../../components/products/CardsHolder.jsx'
-import Sorting from '../../../components/catalog/subcatalog/Sorting.jsx'
 import { Container, Row, Col } from 'react-bootstrap'
 const Item = ({ parent, groups }) => {
+  const dispatch = useDispatch()
+  const [products, setProducts] = useState(null)
+  const [byPrice, setByPrice] = useState(false)
+  const productGroups = useSelector((state) => state.groups)
+  //Заполняем state "products" товарами подкатегории, props ({groups}) from serverSideProps
+  useEffect(() => {
+    groups !== null && setProducts(groups.data[0].groups)
+    productGroups.groups !== null && dispatch(clearGroups())
+  }, [groups])
+
+  // Перезаписываем state "products" отсортированными данными from redux
+  useEffect(() => {
+    !productGroups.loading &&
+      productGroups.groups !== null &&
+      setProducts(productGroups.groups.data)
+  }, [productGroups])
+
   const [curentSubctg, setCurentCtg] = useState([])
+  //Получаем переменные параметры маршрута /категория(slug)/подкатегория(subslug)
   const router = useRouter()
   const { slug, subslug } = router.query
+
   useEffect(() => {
     parent !== null &&
       setCurentCtg(
         parent.data.subcategories.filter((item) => item.slug === subslug)[0]
       )
   }, [subslug])
+  // Выполняем rudux запрос для сортировки по цене, первое нажатие сортировка по возрастанию, второе по убыванию цены, При этом срабатывает useEffect и происходит перезапись state "products",
+  const sortByPrice = () => {
+    dispatch(
+      getGroups(groups.data[0]._id, byPrice ? '&sort=-price' : '&sort=price')
+    )
+    // Меняем отображаемую иконку и направление сортировки
+    setByPrice(!byPrice)
+  }
   return (
     <div>
       <Head>
@@ -58,10 +86,17 @@ const Item = ({ parent, groups }) => {
                 </div>
                 <ul className='nav nav-tabs font-size-sm mb-0'>
                   <li className='nav-item'>
-                    <a className='nav-link' href='#'>
+                    <a
+                      className='nav-link'
+                      href='#'
+                      onClick={() => sortByPrice()}
+                    >
                       Цене
-                      <i className='czi-arrow-up font-size-xs ml-2 d-none'></i>
-                      <i className='czi-arrow-down font-size-xs ml-2'></i>
+                      {byPrice ? (
+                        <i className='czi-arrow-down font-size-xs ml-2'></i>
+                      ) : (
+                        <i className='czi-arrow-up font-size-xs ml-2'></i>
+                      )}
                     </a>
                   </li>
                   <li className='nav-item'>
@@ -84,7 +119,7 @@ const Item = ({ parent, groups }) => {
           </Col>
           <Col>
             <CardsHolder
-              groups={groups.data[0]}
+              groups={products}
               slug={slug}
               subslug={subslug}
               subname={curentSubctg.name}
@@ -101,8 +136,9 @@ export const getServerSideProps = async (context) => {
     `${process.env.NEXT_PUBLIC_DEV_SERVER}/categories/${slug}`
   )
   const groups = await axios.get(
-    `${process.env.NEXT_PUBLIC_DEV_SERVER}/subcategories?slug=${subslug}&select=groups`
+    `${process.env.NEXT_PUBLIC_DEV_SERVER}/subcategories?slug=${subslug}&select=groups,_id`
   )
+
   return {
     props: {
       parent: parent.data,
@@ -110,23 +146,5 @@ export const getServerSideProps = async (context) => {
     },
   }
 }
-
-// export const getStaticPaths = async () => {
-//   const res = await axios.get(
-//     `${process.env.NEXT_PUBLIC_DEV_SERVER}/subcategories`
-//   )
-//   const subcategories = res.data
-//   const subslugs = subcategories.data.map((subslug) => ({
-//     subslug: subslug.slug,
-//     slug: subslug.parent.slug,
-//   }))
-//   const paths = subslugs.map((item) => ({
-//     params: { subslug: item.subslug, slug: item.slug },
-//   }))
-//   return {
-//     paths,
-//     fallback: false,
-//   }
-// }
 
 export default Item

@@ -1,9 +1,11 @@
 import { combineReducers } from 'redux'
-import alerts from './alerts'
-import textsliders from './textslider'
-import auth from './auth'
-import bigsliders from './bigslider'
-import categories from './categories'
+import alerts from './alerts.js'
+import textsliders from './textslider.js'
+import auth from './auth.js'
+import bigsliders from './bigslider.js'
+import categories from './categories.js'
+import subcategories from './subcategories.js'
+import groups from './groups.js'
 
 export default combineReducers({
   alerts,
@@ -11,4 +13,6 @@ export default combineReducers({
   auth,
   bigsliders,
   categories,
+  subcategories,
+  groups,
 })
