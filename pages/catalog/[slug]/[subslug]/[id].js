@@ -37,8 +37,8 @@ const Product = ({ group, subcategory }) => {
                     >
                       <Image
                         src={attach}
-                        width={70}
-                        height={70}
+                        width={group.data.attachments.length > 5 ? 50 : 70}
+                        height={group.data.attachments.length > 5 ? 50 : 70}
                         alt='Product thumb'
                       />
                     </div>
