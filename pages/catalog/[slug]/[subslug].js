@@ -2,16 +2,22 @@ import axios from 'axios'
 import { useRouter } from 'next/router'
 import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { getGroups, clearGroups } from '../../../redux/actions/groups.js'
+import { getGroups, searchByText, clearGroups } from '../../../redux/actions/groups.js'
 import Head from 'next/head'
 import Catalogheader from '../../../components/bredcrambs/Catalogheader.jsx'
 import Subcatalogmenu from '../../../components/catalog/subcatalog/Subcatalogmenu.jsx'
 import CardsHolder from '../../../components/products/CardsHolder.jsx'
 import { Container, Row, Col } from 'react-bootstrap'
+
 const Item = ({ parent, groups }) => {
   const dispatch = useDispatch()
+
   const [products, setProducts] = useState(null)
+  
   const [byPrice, setByPrice] = useState(false)
+  
+  const [searchString, setSearchString] = useState('')
+  
   const productGroups = useSelector((state) => state.groups)
   //Заполняем state "products" товарами подкатегории, props ({groups}) from serverSideProps
   useEffect(() => {
@@ -40,11 +46,19 @@ const Item = ({ parent, groups }) => {
   // Выполняем rudux запрос для сортировки по цене, первое нажатие сортировка по возрастанию, второе по убыванию цены, При этом срабатывает useEffect и происходит перезапись state "products",
   const sortByPrice = () => {
     dispatch(
-      getGroups(groups.data[0]._id, byPrice ? '&sort=-price' : '&sort=price')
+      getGroups(groups.data[0]._id, byPrice ? '&sort=-price' : '&sort=price',products.length)
     )
     // Меняем отображаемую иконку и направление сортировки
     setByPrice(!byPrice)
   }
+  const searchFilter = (e) => {
+    e.preventDefault()
+    dispatch(
+      searchByText(searchString,groups.data[0]._id)
+    )
+    
+  }
+  
   return (
     <div>
       <Head>
@@ -65,16 +79,22 @@ const Item = ({ parent, groups }) => {
       <Container className='pds_container'>
         <Row className='d-flex justify-content-end align-items-center mt-2'>
           <Col md={4}>
-            <div className='input-group-sm input-group-overlay d-none d-lg-flex'>
+            <div className='form-group-sm form-group-overlay d-none d-lg-flex'>
               <input
-                className='form-control appended-form-control'
+                className='form-control form-control-sm appended-form-control'
                 type='text'
+                name='search'
                 placeholder='Поиск'
+                onChange = {e => setSearchString(e.target.value)}
               />
               <div className='input-group-append-overlay'>
-                <span className='input-group-text'>
+                <button 
+                  className='btn btn-sm btn-primary' 
+                  type='button' 
+                  onClick={e=>searchFilter(e)}
+                >
                   <i className='czi-search'></i>
-                </span>
+                </button>
               </div>
             </div>
           </Col>

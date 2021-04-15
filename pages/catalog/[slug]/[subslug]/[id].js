@@ -29,7 +29,7 @@ const Product = ({ group, subcategory }) => {
             <Row className='mb-5'>
               <Col md={2} className='thumbs-holder p-0'>
                 {group.data.attachments.length > 0 &&
-                  group.data.attachments.map((attach, idx) => (
+                  group.data.attachments.filter((attach, idx)=>idx<7).map((attach, idx) => (
                     <div
                       className='p-2 thumb-img'
                       onClick={() => setImage(attach)}
@@ -48,6 +48,7 @@ const Product = ({ group, subcategory }) => {
                 <Image
                   width={500}
                   height={500}
+                  layout='responsive'
                   src={image ? image : group.data.big_img}
                   alt={group.data.name}
                 />
