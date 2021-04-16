@@ -140,7 +140,7 @@ const Product = ({ group, subcategory }) => {
                     style={{ width: '5rem' }}
                   >
                     {group.data.products.map((product) => (
-                      <option value={product.size_code}>
+                      <option value={product.size_code} key={product._id}>
                         {product.size_code}
                       </option>
                     ))}

@@ -2,26 +2,53 @@ import axios from 'axios'
 import { useRouter } from 'next/router'
 import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { getGroups, searchByText, clearGroups } from '../../../redux/actions/groups.js'
+import { getSortedGroups, getGroups, searchByText, clearGroups } from '../../../redux/actions/groups.js'
 import Head from 'next/head'
 import Catalogheader from '../../../components/bredcrambs/Catalogheader.jsx'
 import Subcatalogmenu from '../../../components/catalog/subcatalog/Subcatalogmenu.jsx'
 import CardsHolder from '../../../components/products/CardsHolder.jsx'
 import { Container, Row, Col } from 'react-bootstrap'
 
-const Item = ({ parent, groups }) => {
+const Item = ({ groups }) => {
   const dispatch = useDispatch()
+  //Получаем переменные параметры маршрута /категория(slug)/подкатегория(subslug)
+  const router = useRouter()
+  const { slug, subslug } = router.query
 
   const [products, setProducts] = useState(null)
+
+  const [curentSubctg, setCurentCtg] = useState({})
   
   const [byPrice, setByPrice] = useState(false)
-  
-  const [searchString, setSearchString] = useState('')
-  
+
+  const [searchStr, setSearchStr] = useState('')
+
+  const [queryParams, setQueryParams] = useState({
+    find:'',
+    sort:'',
+    subcategories:''
+  })
+  useEffect(()=>{
+    setQueryParams({
+      ...queryParams, 
+      sort: byPrice?'&sort=-price':'&sort=price', 
+      find:`&search=${searchStr}`})
+  },[byPrice, searchStr])
+
   const productGroups = useSelector((state) => state.groups)
+
   //Заполняем state "products" товарами подкатегории, props ({groups}) from serverSideProps
   useEffect(() => {
-    groups !== null && setProducts(groups.data[0].groups)
+    if(groups !== null) {
+      setProducts(groups.data[0].groups)
+      setQueryParams({...queryParams, subcategories:`?subcategories=${groups.data[0]._id}`})
+      setCurentCtg({
+        _id:groups.data[0]._id,
+        name:groups.data[0].name, 
+        description: groups.data[0].description,
+        slug: subslug
+      })
+    } 
     productGroups.groups !== null && dispatch(clearGroups())
   }, [groups])
 
@@ -32,33 +59,27 @@ const Item = ({ parent, groups }) => {
       setProducts(productGroups.groups.data)
   }, [productGroups])
 
-  const [curentSubctg, setCurentCtg] = useState([])
-  //Получаем переменные параметры маршрута /категория(slug)/подкатегория(subslug)
-  const router = useRouter()
-  const { slug, subslug } = router.query
-
-  useEffect(() => {
-    parent !== null &&
-      setCurentCtg(
-        parent.data.subcategories.filter((item) => item.slug === subslug)[0]
-      )
-  }, [subslug])
-  // Выполняем rudux запрос для сортировки по цене, первое нажатие сортировка по возрастанию, второе по убыванию цены, При этом срабатывает useEffect и происходит перезапись state "products",
+ // Выполняем rudux запрос для сортировки по цене, первое нажатие сортировка по возрастанию, второе по убыванию цены, При этом срабатывает useEffect и происходит перезапись state "products",
   const sortByPrice = () => {
     dispatch(
-      getGroups(groups.data[0]._id, byPrice ? '&sort=-price' : '&sort=price',products.length)
+      getSortedGroups(queryParams, products.length)
     )
-    // Меняем отображаемую иконку и направление сортировки
+    // Меняем иконку и направление сортировки
     setByPrice(!byPrice)
   }
+
   const searchFilter = (e) => {
     e.preventDefault()
-    dispatch(
-      searchByText(searchString,groups.data[0]._id)
-    )
-    
+    queryParams.find ? dispatch(
+      searchByText(queryParams, products.length)
+    ) : dispatch(getGroups(queryParams.subcategories, groups.length))
   }
-  
+
+  const clearSearch = (e) => {
+    dispatch(getGroups(queryParams.subcategories, groups.length))
+    setSearchStr('')
+  }
+
   return (
     <div>
       <Head>
@@ -72,7 +93,7 @@ const Item = ({ parent, groups }) => {
       </Head>
       <Catalogheader
         slug={slug}
-        name={parent.data.name}
+        name={groups.data[0].parent.name}
         subslug={subslug}
         subname={curentSubctg.name}
       />
@@ -85,7 +106,8 @@ const Item = ({ parent, groups }) => {
                 type='text'
                 name='search'
                 placeholder='Поиск'
-                onChange = {e => setSearchString(e.target.value)}
+                value={searchStr}
+                onChange={e => setSearchStr(e.target.value)}
               />
               <div className='input-group-append-overlay'>
                 <button 
@@ -94,6 +116,13 @@ const Item = ({ parent, groups }) => {
                   onClick={e=>searchFilter(e)}
                 >
                   <i className='czi-search'></i>
+                </button>
+                <button 
+                  className='btn btn-sm btn-warning ml-1' 
+                  type='button' 
+                  onClick={e=>clearSearch(e)} 
+                >
+                  <i className='czi-close'></i>
                 </button>
               </div>
             </div>
@@ -133,7 +162,7 @@ const Item = ({ parent, groups }) => {
           <Col sm={12} md={3}>
             <Subcatalogmenu
               slug={slug}
-              id={parent.data._id}
+              id={groups.data[0].parent._id}
               subslug={subslug}
             />
           </Col>
@@ -151,18 +180,14 @@ const Item = ({ parent, groups }) => {
   )
 }
 export const getServerSideProps = async (context) => {
-  const { slug, subslug } = context.params
-  const parent = await axios.post(
-    `${process.env.NEXT_PUBLIC_DEV_SERVER}/categories/${slug}`
-  )
+  const {subslug } = context.params
   const groups = await axios.get(
-    `${process.env.NEXT_PUBLIC_DEV_SERVER}/subcategories?slug=${subslug}&select=groups,_id`
+    `${process.env.NEXT_PUBLIC_DEV_SERVER}/subcategories?slug=${subslug}&select=groups,_id,parent,name, description`
   )
 
   return {
     props: {
-      parent: parent.data,
-      groups: groups.data,
+     groups: groups.data,
     },
   }
 }
