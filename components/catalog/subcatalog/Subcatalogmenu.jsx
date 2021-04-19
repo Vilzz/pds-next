@@ -41,7 +41,9 @@ const Subcatalogmenu = ({ slug, id, subslug }) => {
                   {sctg.name}
                 </span>
                 <span
-                  className='text-light badge badge-shadow badge-pill badge-info font-size-xs'
+                  className={`${
+                    sctg.slug === subslug ? 'badge-primary' : 'badge-info'
+                  } badge badge-shadow badge-pill font-size-xs`}
                   style={{ minWidth: '36px', fontWeight: '600' }}
                 >
                   {sctg.counts}
