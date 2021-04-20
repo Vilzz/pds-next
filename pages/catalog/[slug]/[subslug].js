@@ -25,7 +25,8 @@ const Item = ({ groups }) => {
   const [curentSubctg, setCurentCtg] = useState({})
 
   const [byPrice, setByPrice] = useState(false)
-  const [productLimit, setProductLimit] = useState('50')
+  // Хотел сделать лимит выдачи по подкатегориям но надо ли?????
+  const [productLimit, setProductLimit] = useState('2000')
 
   const [searchStr, setSearchStr] = useState('')
 
@@ -47,7 +48,9 @@ const Item = ({ groups }) => {
   //Заполняем state "products" товарами подкатегории, props ({groups}) from serverSideProps
   useEffect(() => {
     if (groups !== null) {
-      setProducts(groups.data[0].groups)
+      setProducts(
+        groups.data[0].groups.filter((grs, idx) => idx < parseInt(productLimit))
+      )
       setQueryParams({
         ...queryParams,
         subcategories: `?subcategories=${groups.data[0]._id}`,
@@ -87,7 +90,10 @@ const Item = ({ groups }) => {
     dispatch(getGroups(queryParams.subcategories, groups.length))
     setSearchStr('')
   }
-
+  const changeLimit = (e) => {
+    setProductLimit(e.target.value)
+    dispatch(getGroups(queryParams.subcategories, e.target.value))
+  }
   return (
     <div>
       <Head>
@@ -117,7 +123,8 @@ const Item = ({ groups }) => {
                 </div>
                 <select
                   className='form-control form-control-sm custom-select'
-                  onChange={(e) => setProductLimit(e.target.value)}
+                  onChange={(e) => changeLimit(e)}
+                  value={productLimit}
                 >
                   <option value={50}>50</option>
                   <option value={100}>100</option>

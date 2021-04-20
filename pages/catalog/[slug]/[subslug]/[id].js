@@ -5,6 +5,7 @@ import { Row, Col, Container, Button } from 'react-bootstrap'
 import Image from 'next/image'
 import Head from 'next/head'
 import Link from 'next/link'
+import ProductBreadcrumbs from '../../../../components/bredcrambs/ProductBreadcrumbs.jsx'
 
 const Product = ({ group, subcategory }) => {
   const [image, setImage] = useState('')
@@ -13,6 +14,7 @@ const Product = ({ group, subcategory }) => {
   }, [group])
   const router = useRouter()
   const { id, slug, subslug } = router.query
+
   return (
     <div>
       <Head>
@@ -22,27 +24,36 @@ const Product = ({ group, subcategory }) => {
       </Head>
       <Container className='my-4'>
         <Row className='bg-bgcol'>
-          <h2>Тут будет что-то</h2>
+          <ProductBreadcrumbs
+            id={id}
+            slug={slug}
+            slugname={subcategory.data[0].parent.name}
+            subslug={subslug}
+            subslugname={subcategory.data[0].name}
+            product={group.data.name}
+          />
         </Row>
         <Row>
           <Col sm={12} md={6} className='pt-4'>
             <Row className='mb-5'>
               <Col md={2} className='thumbs-holder p-0'>
                 {group.data.attachments.length > 0 &&
-                  group.data.attachments.filter((attach, idx)=>idx<7).map((attach, idx) => (
-                    <div
-                      className='p-2 thumb-img'
-                      onClick={() => setImage(attach)}
-                      key={attach}
-                    >
-                      <Image
-                        src={attach}
-                        width={group.data.attachments.length > 5 ? 50 : 70}
-                        height={group.data.attachments.length > 5 ? 50 : 70}
-                        alt='Product thumb'
-                      />
-                    </div>
-                  ))}
+                  group.data.attachments
+                    .filter((attach, idx) => idx < 7)
+                    .map((attach, idx) => (
+                      <div
+                        className='p-2 thumb-img'
+                        onClick={() => setImage(attach)}
+                        key={attach}
+                      >
+                        <Image
+                          src={attach}
+                          width={group.data.attachments.length > 5 ? 50 : 70}
+                          height={group.data.attachments.length > 5 ? 50 : 70}
+                          alt='Product thumb'
+                        />
+                      </div>
+                    ))}
               </Col>
               <Col md={10} className='pt-3'>
                 <Image
