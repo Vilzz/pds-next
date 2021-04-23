@@ -134,7 +134,7 @@ const Item = ({ groups }) => {
               </div>
             </section>
           </Col>
-          <Col md={4}>
+          <Col md={3}>
             <div className='form-group-sm form-group-overlay d-none d-lg-flex'>
               <input
                 className='form-control form-control-sm appended-form-control'
@@ -162,7 +162,19 @@ const Item = ({ groups }) => {
               </div>
             </div>
           </Col>
-          <Col md={4} sm={6}>
+          <Col md={3}>
+            <div className='form-group-sm form-group-overlay d-none d-lg-flex'>
+              {/* Добавить фильтрацию по артиклу */}
+              <input
+                className='form-control form-control-sm appended-form-control'
+                type='text'
+                name='article'
+                placeholder='Артикул'
+                //onChange={(e) => setSearchStr(e.target.value)}
+              />
+            </div>
+          </Col>
+          <Col md={3} sm={6}>
             <section className='d-md-flex justify-content-between align-items-center '>
               <div className='d-flex align-items-center'>
                 <div className='d-none d-sm-block font-size-sm text-muted text-nowrap'>
@@ -181,11 +193,6 @@ const Item = ({ groups }) => {
                       ) : (
                         <i className='czi-arrow-up font-size-xs ml-2'></i>
                       )}
-                    </a>
-                  </li>
-                  <li className='nav-item'>
-                    <a className='nav-link' href='#'>
-                      Названию
                     </a>
                   </li>
                 </ul>

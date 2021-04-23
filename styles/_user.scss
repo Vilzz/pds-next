@@ -1,3 +1,25 @@
+@import url("~leaflet/dist/leaflet.css");
+
+.leaflet-container {
+  height: 60vh;
+}
+
+.basemap-cont {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  height: auto;
+  width: auto;
+  border-radius: 3px;
+  background-color: #fff;
+}
+.basemap-cont select {
+  width: 200px;
+  height: 20px;
+}
+
+
 .tmp {
   min-height: 80vh;
 }
@@ -6,6 +28,25 @@
 }
 .b-shadow{
   box-shadow: 0px 0px 8px 1px rgba(34, 60, 80, 0.2);
+}
+.btn-up, .btn-down{
+  padding: 0 3px 0 3px;
+  i{
+    font-size: 10px;
+  }
+}
+.btn-up{
+  border-top-right-radius: 30%;
+  border-top-left-radius: 30%;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  margin-bottom: 1px;
+}
+.btn-down{
+  border-top-right-radius: 0;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 30%;
+  border-bottom-right-radius: 30%;
 }
 .thumb-img{
   border-radius: 10px;

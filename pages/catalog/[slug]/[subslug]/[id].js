@@ -117,7 +117,12 @@ const Product = ({ group, subcategory }) => {
               {group.data.products.length > 0 && (
                 <div>
                   {group.data.products.map((product) => (
-                    <Row key={product._id}>
+                    <Row
+                      key={product._id}
+                      className={`${
+                        product.stock.free > 0 ? 'd-flex' : 'd-none'
+                      }`}
+                    >
                       <Col md={7} className='d-flex justify-content-between'>
                         <span className='font-size-sm'>
                           Размер: {product.size_code}
@@ -150,23 +155,34 @@ const Product = ({ group, subcategory }) => {
                     className='custom-select mr-3 mb-3'
                     style={{ width: '5rem' }}
                   >
-                    {group.data.products.map((product) => (
-                      <option value={product.size_code} key={product._id}>
-                        {product.size_code}
-                      </option>
-                    ))}
+                    {group.data.products.map((product) => {
+                      return (
+                        product.stock.free > 0 && (
+                          <option value={product.size_code} key={product._id}>
+                            {product.size_code}
+                          </option>
+                        )
+                      )
+                    })}
                   </select>
                 )}
-                <select
-                  className='custom-select mr-3 mb-3'
+                <div
+                  className='d-flex justify-content-center align-items-center mr-3 mb-3'
                   style={{ width: '5rem' }}
                 >
-                  <option value='1'>1</option>
-                  <option value='2'>2</option>
-                  <option value='3'>3</option>
-                  <option value='4'>4</option>
-                  <option value='5'>5</option>
-                </select>
+                  <div className='p-2'>1</div>
+                  <div className='d-flex flex-column justify-content-between'>
+                    <Button variant='info' className='btn-sm btn-up btn-shadow'>
+                      <i className='czi-arrow-up'></i>
+                    </Button>
+                    <Button
+                      variant='info'
+                      className='btn-sm btn-down btn-shadow'
+                    >
+                      <i className='czi-arrow-down'></i>
+                    </Button>
+                  </div>
+                </div>
                 <Button
                   variant='primary'
                   className='btn-shadow mr-3 mb-3'
