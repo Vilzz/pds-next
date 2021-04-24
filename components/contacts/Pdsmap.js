@@ -2,14 +2,14 @@ import Leaflet from 'leaflet'
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 
 const icon = Leaflet.icon({
-  iconUrl: '/icons/marker-icon.png',
-  iconRetinaUrl: '/icons/marker-icon-2x.png',
-  shadowUrl: '/icons/marker-shadow.png',
+  iconUrl: '/images/icons/marker-icon.png',
+  iconRetinaUrl: '/images/icons/marker-icon-2x.png',
+  shadowUrl: '/images/icons/marker-shadow.png',
 })
 const Pdsmap = () => {
   return (
     <MapContainer
-      center={[53.192835, 50.268502]}
+      center={points.office.coords}
       zoom={15}
       scrollWheelZoom={true}
     >
@@ -17,22 +17,10 @@ const Pdsmap = () => {
         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         url={points.basemap.osm}
       />
-      {/* <Marker position={points.office.coords}>
+      <Marker position={points.office.coords} icon={icon}>
         <Popup>{points.office.name}</Popup>
-      </Marker> */}
+      </Marker>
     </MapContainer>
-    // <Map zoom={mapData.zoom} center={mapData.point.coords}>
-    //   <TileLayer
-    //     attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a>'
-    //     url={mapData.basemap}
-    //   />
-    //   <Marker position={mapData.point.coords}>
-    //     <Popup>
-    //       <img src='/images/logo.jpg' alt='alt' />
-    //       <h3>{mapData.point.name}</h3>
-    //     </Popup>
-    //   </Marker>
-    // </Map>
   )
 }
 
@@ -40,7 +28,7 @@ export default Pdsmap
 
 const points = {
   office: {
-    name: 'Офис',
+    name: 'Про-движение',
     coords: {
       lat: 53.192835,
       lng: 50.268502,

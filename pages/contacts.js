@@ -7,12 +7,12 @@ const PDSMap = dynamic(() => import('../components/contacts/Pdsmap'), {
 })
 const Contacts = () => {
   return (
-    <Container>
+    <Container className='mb-5'>
       {/* <Head>
         <title>Про-движение | Контакты</title>
         <link rel='icon' href='/favicon.ico' />
       </Head> */}
-      <h1 className='container mb-5'>Контактная информация</h1>
+      <h1 className='display-4 text-center py-4'>Контактная информация</h1>
       <PDSMap />
     </Container>
   )
