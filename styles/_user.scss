@@ -1,7 +1,7 @@
 @import url("~leaflet/dist/leaflet.css");
 
 .leaflet-container {
-  height: 60vh;
+  height: 65vh;
 }
 
 .basemap-cont {
@@ -13,12 +13,11 @@
   width: auto;
   border-radius: 3px;
   background-color: #fff;
-}
+  }
 .basemap-cont select {
   width: 200px;
   height: 20px;
 }
-
 
 .tmp {
   min-height: 80vh;

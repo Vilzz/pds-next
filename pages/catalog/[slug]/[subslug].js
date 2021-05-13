@@ -8,6 +8,7 @@ import {
   searchByText,
   clearGroups,
 } from '../../../redux/actions/groups.js'
+
 import Head from 'next/head'
 import Catalogheader from '../../../components/bredcrambs/Catalogheader.jsx'
 import Subcatalogmenu from '../../../components/catalog/subcatalog/Subcatalogmenu.jsx'

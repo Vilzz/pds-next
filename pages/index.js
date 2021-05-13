@@ -1,6 +1,7 @@
 import Head from 'next/head'
-import BigSlider from '../components/slider/BigSlider.jsx'
-import Instanews from '../components/instanews/Instanews.jsx'
+import BigSlider from '@/slider/BigSlider'
+import Instanews from '@/components/instanews/Instanews'
+import Blogs from '@/blogs/Blogs'
 import Related from '../components/products/Related.jsx'
 import Bybrand from '../components/products/Bybrand.jsx'
 
@@ -14,8 +15,9 @@ export default function Home() {
       </Head>
       <div>
         <BigSlider />
-        <Related />
-        <Bybrand />
+        <Blogs />
+        {/* <Related />
+        <Bybrand /> */}
         <Instanews />
       </div>
     </div>

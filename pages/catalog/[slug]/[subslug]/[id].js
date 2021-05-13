@@ -8,12 +8,24 @@ import Link from 'next/link'
 import ProductBreadcrumbs from '../../../../components/bredcrambs/ProductBreadcrumbs.jsx'
 
 const Product = ({ group, subcategory }) => {
+  const [counter, setCounter] = useState(1)
+
   const [image, setImage] = useState('')
   useEffect(() => {
     group !== null && setImage(group.data.big_img)
   }, [group])
   const router = useRouter()
   const { id, slug, subslug } = router.query
+
+  const plusQty = () => {
+    let qty = counter + 1
+    setCounter(qty)
+  }
+
+  const minusQty = () => {
+    let qty = counter - 1
+    setCounter(qty)
+  }
 
   return (
     <div>
@@ -148,57 +160,73 @@ const Product = ({ group, subcategory }) => {
                   ))}
                 </div>
               )}
-
-              <div className='form-group d-flex flex-wrap align-items-center pt-4 pb-2'>
+              <Row className='d-flex justify-content-between align-items-center my-3'>
                 {group.data.products.length > 0 && (
-                  <select
-                    className='custom-select mr-3 mb-3'
-                    style={{ width: '5rem' }}
-                  >
-                    {group.data.products.map((product) => {
-                      return (
-                        product.stock.free > 0 && (
-                          <option value={product.size_code} key={product._id}>
-                            {product.size_code}
-                          </option>
+                  <div className='form-group d-flex flex-wrap align-items-center pt-4 pb-2'>
+                    <select className='custom-select ml-1'>
+                      {group.data.products.map((product) => {
+                        return (
+                          product.stock.free > 0 && (
+                            <option value={product.size_code} key={product._id}>
+                              {product.size_code}
+                            </option>
+                          )
                         )
-                      )
-                    })}
-                  </select>
+                      })}
+                    </select>
+                  </div>
                 )}
-                <div
-                  className='d-flex justify-content-center align-items-center mr-3 mb-3'
-                  style={{ width: '5rem' }}
+                <Col
+                  md={3}
+                  className='d-flex justify-content-center align-items-center'
                 >
-                  <div className='p-2'>1</div>
+                  <div className='input-group ml-2'>
+                    <input
+                      type='text'
+                      value={group.data.stock.free > 0 ? counter : 0}
+                      onChange={(e) => setCounter(parseInt(e.target.value))}
+                      className='form-control mr-2'
+                    />
+                  </div>
                   <div className='d-flex flex-column justify-content-between'>
-                    <Button variant='info' className='btn-sm btn-up btn-shadow'>
+                    <Button
+                      variant='info'
+                      className='btn-sm btn-up btn-shadow'
+                      disabled={counter === group.data.stock.free}
+                      onClick={plusQty}
+                    >
                       <i className='czi-arrow-up'></i>
                     </Button>
                     <Button
                       variant='info'
                       className='btn-sm btn-down btn-shadow'
+                      disabled={counter <= 1}
+                      onClick={minusQty}
                     >
                       <i className='czi-arrow-down'></i>
                     </Button>
                   </div>
-                </div>
-                <Button
-                  variant='primary'
-                  className='btn-shadow mr-3 mb-3'
-                  type='submit'
-                >
-                  <i className='czi-cart font-size-lg mr-2'></i>Заказать
-                </Button>
-                <button
-                  className='btn btn-icon btn-secondary mb-3'
-                  type='submit'
-                  data-toggle='tooltip'
-                  title='Add to Wishlist'
-                >
-                  <i className='czi-heart font-size-lg'></i>
-                </button>
-              </div>
+                </Col>
+                <Col>
+                  <Button
+                    variant='primary'
+                    className='btn-shadow mr-3'
+                    type='submit'
+                  >
+                    <i className='czi-cart font-size-lg mr-2'></i>Добавить
+                  </Button>
+                </Col>
+                <Col>
+                  <Button
+                    variant='secondary'
+                    className='btn-icon'
+                    type='submit'
+                    title='Понравилось'
+                  >
+                    <i className='czi-heart font-size-lg'></i>
+                  </Button>
+                </Col>
+              </Row>
               <Row>
                 <Col>
                   <h6>Материалы:</h6>
